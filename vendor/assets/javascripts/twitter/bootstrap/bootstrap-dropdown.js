@@ -23,7 +23,7 @@
   var d = 'a.menu, .dropdown-toggle'
 
   function clearMenus() {
-    $(d).parent('li').removeClass('open')
+    $(d).parent('li,.dropdown').removeClass('open')
   }
 
   $(function () {
@@ -37,14 +37,17 @@
   $.fn.dropdown = function ( selector ) {
     return this.each(function () {
       $(this).delegate(selector || d, 'click', function (e) {
-        var li = $(this).parent('li')
-          , isActive = li.hasClass('open')
+        if ($(this).hasClass('disabled')) {
+          return false;
+        }
+        var p = $(this).parent('li,.dropdown')
+          , isActive = p.hasClass('open')
 
         clearMenus()
-        !isActive && li.toggleClass('open')
+        !isActive && p.toggleClass('open')
         return false
       })
     })
   }
 
-}( window.jQuery || window.ender );
+}( window.jQuery || window.ender )
